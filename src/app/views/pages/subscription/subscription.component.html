@@ -1,0 +1,157 @@
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+    <div class="kt-portlet__head-label">
+      <h3 class="kt-portlet__head-title"><span>All Subscription Plans</span></h3>
+    </div>
+    <div class="kt-portlet__head-toolbar">
+      <button  (click)="open(content1)" mat-raised-button color="yellow">Add  Subscription</button>
+    </div>
+  </div>
+
+  <div class="kt-portlet__body pt-0">
+ 
+    <mat-form-field class="mat-form-field-infix">
+     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+   </mat-form-field>
+   <div class="table-responsive"> 
+    <div class="mat-table__wrapper "> 
+     <mat-table #table [dataSource]="dataSource">
+
+  <!-- Image Column -->
+	  <ng-container matColumnDef="imageurl" >
+      <mat-header-cell *matHeaderCellDef width15  cell-center> Image </mat-header-cell>
+      <mat-cell *matCellDef="let element"  width15 cell-center>  
+	    
+	  <img  class="table-user rounded-circle img-thumbnail" width="60px" height="60px" src="assets/img/no_image.jpg"
+	  *ngIf="errors.indexOf(element?.image)>=0"
+	  />
+	  
+	  <img  class="table-user rounded-circle img-thumbnail" width="60px" height="60px" src="{{IMAGES_URL}}/{{element.image}}"
+	  *ngIf="errors.indexOf(element?.image)==-1"
+	  />
+	  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef cell-center>Subscription Amount </mat-header-cell> 
+      <mat-cell *matCellDef="let element" cell-center> <span class="badge badge-secondary">${{element.amount}} </span>  </mat-cell>
+    </ng-container>
+	  <ng-container matColumnDef="duration">
+      <mat-header-cell *matHeaderCellDef cell-center>Duration </mat-header-cell> 
+      <mat-cell *matCellDef="let element" cell-center>Monthly</mat-cell>
+    </ng-container>
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef   cell-center> Action </mat-header-cell>
+      <mat-cell *matCellDef="let element"  cell-center> 
+        <button    (click)="open(content2)" mat_primary_color mat-icon-button color="pink" matTooltip="Edit  Subscription">
+          <i class="fa fa-pencil-alt"></i>
+        </button>&nbsp;
+	
+        <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
+         <mat-icon>delete</mat-icon> </button>
+     </mat-cell>
+   </ng-container>
+   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+ </mat-table>
+</div>
+</div>
+<mat-paginator #paginator
+[pageSize]="10"
+[pageSizeOptions]="[5, 10, 20]"
+[showFirstLastButtons]="true">
+</mat-paginator>
+</div>
+</div>
+<div class="kt-section">
+  <div class="kt-section__content">
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-body">
+        <button type="button" class="close close-modal" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div  class="modal-inner text-center">
+          <i class="flaticon2-close-cross fa-4x close-icon"></i>
+          <h4>Are You Sure ?</h4>
+          <p class="mb-0">Are you sure you want to delete this records? This process cannot be undone</p>
+        </div>
+      </div>
+      <div class="modal-footer no-border pt-0 justify-content-center pb-4">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div class="kt-section">
+  <div class="kt-section__content">
+    <ng-template #content1 let-c="close" let-d="dismiss">
+      <div class="modal-header modalcustom">
+	  <h4>Add Subscription</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+	  </div>
+      <div class="modal-body">
+				<div class="form-group upload_file ">
+					<label  for="user-img"><i class="flaticon-upload"></i><p>Drag or Drop Image</p></label>
+					<input  id="user-img" name="user-img" style="display:none" type="file">
+				</div>
+					<div class="form-group ">
+							<label class="frm_label">Subscription Amount</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter  Amount" name="">
+							</div>
+						</div>
+						<div class="form-group mb-0">
+							<label class="frm_label">Duration</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter  Duration">
+							</div>
+						</div>
+      </div>
+      <div class="modal-footer   justify-content-center">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div class="kt-section">
+  <div class="kt-section__content">
+    <ng-template #content2 let-c="close" let-d="dismiss">
+      <div class="modal-header modalcustom">
+	  <h4>Edit Subscription</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+	  </div>
+      <div class="modal-body">
+				<div class="form-group upload_file mb-0">
+					<label  for="user-img"><i class="flaticon-upload"></i><p>Drag or Drop Image</p></label>
+					<input  id="user-img" name="user-img" style="display:none" type="file">
+				</div>
+				<div class="subimg mb-3">
+						<img src="assets/media/prj11.jpg"/>
+						<i class="fa fa-times"></i>
+						</div>
+					<div class="form-group ">
+							<label class="frm_label">Subscription Amount</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter  Amount" value="$180">
+							</div>
+						</div>
+							<div class="form-group mb-0">
+							<label class="frm_label">Duration</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter  Duration" value="2 Months">
+							</div>
+						</div>
+      </div>
+      <div class="modal-footer   justify-content-center">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

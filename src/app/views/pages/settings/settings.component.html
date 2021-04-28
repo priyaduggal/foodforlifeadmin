@@ -1,0 +1,77 @@
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title"><span>Payment Settings</span></h3>
+		</div>
+	
+	</div>
+	<div class="kt-portlet__body">
+		<div class="row">
+			
+			<div class="col-md-12">
+				<h4 class="mb-4  mt-0 headcustom">Credit Card Setting</h4>
+			<mat-radio-group class=" mt-3" aria-label="Select an option">
+  <mat-radio-button value="1" checked="true">Yes</mat-radio-button>
+  <mat-radio-button value="2">No</mat-radio-button>
+</mat-radio-group>
+			
+			
+			<h4 class="mb-4  mt-5 headcustom">Stripe Setting</h4>
+			<mat-radio-group class=" mt-3" aria-label="Select an option">
+			  <mat-radio-button value="1" checked="true">Yes</mat-radio-button>
+			  <mat-radio-button value="2">No</mat-radio-button>
+			</mat-radio-group>
+				<div class="row grp_form  mt-3 mb-3" >
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="frm_label">Stripe Secret Key</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter Stripe Secret Key" value="sk_test_SUCITJgZs8O0n3Q4H2QQFQo7">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="frm_label">Stripe Publish Key</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter Publish Secret Key" value="pk_test_SUCITJgZs8O0n3Q4H2QQFQo7">
+							</div>
+						</div>
+					</div>
+			</div>
+
+<h4 class="mb-4  mt-0 headcustom">Paypal Setting</h4>
+			<mat-radio-group class=" mt-3" aria-label="Select an option">
+			  <mat-radio-button value="1" checked="true">Yes</mat-radio-button>
+			  <mat-radio-button value="2">No</mat-radio-button>
+			</mat-radio-group>
+				<div class="row grp_form  mt-3 " >
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="frm_label">PayPal Mode</label>
+							<div class="input-group">
+									<select class="form-control">
+										<option> - Select - </option>
+											<option selected> PayPal Sandbox </option>
+											<option> PayPal Live </option>
+										</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="frm_label">PayPal Merchant Email</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter Merchant Email" value="merchant@info.com">
+							</div>
+						</div>
+					</div>
+					
+			</div>
+				
+						<button  class="mt-3"  btn-submit   mat-raised-button color="pink">Submit</button>
+					
+			</div>
+		</div>
+	</div>
+</div>

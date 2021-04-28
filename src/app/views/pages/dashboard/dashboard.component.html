@@ -1,0 +1,271 @@
+
+<div class="row">
+	<div class="col-xl-12">
+		<div class="row row-full-height">
+			<div class="col-sm-12 col-md-6 col-lg-3">
+			   <div class="card card-stats mb-3">
+					<div class="card-body ">
+						<div class="row card-inner">						
+							<div class="col-7 col-md-8">
+								 <div class="numbers">
+									<p class="card-number">{{dashboard_data?.users}}</p>
+									<p class="card-title">Users </p>
+								</div>							
+							</div>
+							<div class="col-5 col-md-4">
+								<div class="icon-big text-center icon-warning">
+									<i class="fa fa-users fa-3x text-primary"></i>
+								</div>
+							</div>
+						</div>
+					  </div>
+				  </div>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-3">
+			   <div class="card card-stats mb-3">
+					<div class="card-body ">
+						<div class="row card-inner">						
+							<div class="col-7 col-md-8">
+								 <div class="numbers">
+									<p class="card-number">{{dashboard_data?.projects}}</p>
+									<p class="card-title">Projects</p>
+								</div>							
+							</div>
+							<div class="col-5 col-md-4">
+								<div class="icon-big text-center icon-warning">
+									<i class="flaticon2-file-1   fa-3x text-green"></i>	
+								</div>
+							</div>
+						</div>
+					  </div>
+				  </div>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-3">
+			   <div class="card card-stats mb-3">
+					<div class="card-body ">
+						<div class="row card-inner">						
+							<div class="col-7 col-md-8">
+								 <div class="numbers">
+									<p class="card-number">{{dashboard_data?.donations}}</p>
+									<p class="card-title">Donations</p>
+								</div>							
+							</div>
+							<div class="col-5 col-md-4">
+								<div class="icon-big text-center icon-warning">
+									<i class="flaticon-coins  fa-3x text-yellow"></i>
+								</div>
+							</div>
+						</div>
+					  </div>
+				  </div>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-3">
+			   <div class="card card-stats mb-3">
+					<div class="card-body ">
+						<div class="row card-inner">						
+							<div class="col-7 col-md-8">
+								 <div class="numbers">
+									<p class="card-number">{{dashboard_data?.activity}}</p>
+									<p class="card-title"> Activities</p>
+								</div>							
+							</div>
+							<div class="col-5 col-md-4">
+								<div class="icon-big text-center icon-warning">
+									<i class="flaticon-file-2  fa-3x text-red"></i>
+								</div>
+							</div>
+						</div>
+					  </div>
+				  </div>
+			</div>
+		
+			 </div>
+		</div>
+	   <div  class="kt-space-20"></div>
+	
+</div>
+
+
+
+<div class="row">
+	<div class="col-xl-12">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Recent Donations'" [class]="'kt-portlet__head--lg  kt-portlet__head--break-sm'">
+				<ng-container ktPortletTools>
+				
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+
+
+			<!--kt-data-table></kt-data-table-->
+
+			<div class="table-responsive"> 
+    <div class="mat-table__wrapper "> 
+
+  <mat-table #table [dataSource]="dataSource1" class="mb-3">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef pos> No. </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index; " pos > {{ (i+1) }} </mat-cell>
+	</ng-container>
+	
+		<!-- Name Column -->
+    <ng-container matColumnDef="name" >
+      <mat-header-cell *matHeaderCellDef sellerName>  Name </mat-header-cell>
+      <mat-cell *matCellDef="let element" sellerName> {{element.first_name}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef emailAddress> Email ID</mat-header-cell>
+      <mat-cell *matCellDef="let element" emailAddress> {{element.email}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="phoneno">
+      <mat-header-cell *matHeaderCellDef address > Phone No. </mat-header-cell>
+      <mat-cell *matCellDef="let element" address >{{element.phone}}</mat-cell>
+    </ng-container>
+	    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef address > Address </mat-header-cell>
+      <mat-cell *matCellDef="let element" address >{{element.address}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="paymentby">
+      <mat-header-cell *matHeaderCellDef status>Payment By </mat-header-cell>
+      <mat-cell *matCellDef="let element" status><span class="badge badge-success">Card</span></mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef status>Amount </mat-header-cell>
+      <mat-cell *matCellDef="let element" status>{{element.amount}}</mat-cell>
+    </ng-container>
+	    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef width10 > Date </mat-header-cell>
+      <mat-cell *matCellDef="let element" width10 >{{element?.donated_at | date : 'MMM d, yyyy'}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef  > Action </mat-header-cell>
+      <mat-cell *matCellDef="let element"  > 
+        
+			 <button  (click)="open(content)"   mat-icon-button color="danger" matTooltip="delete ">
+          <i class="fa fa-trash"></i>
+        </button>
+     </mat-cell>
+   </ng-container>
+
+    
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div></div>
+  
+			</kt-portlet-body>
+		</kt-portlet>
+
+	</div>
+
+</div>
+<div class="row">
+	<div class="col-xl-12">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Recent Users'" [class]="'kt-portlet__head--lg  kt-portlet__head--break-sm'">
+				<ng-container ktPortletTools>
+				
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+
+
+			<!--kt-data-table></kt-data-table-->
+
+			<div class="table-responsive"> 
+    <div class="mat-table__wrapper "> 
+
+  <mat-table #table1 [dataSource]="dataSource" class="mb-3">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef pos > No. </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index; " pos > {{ (i+1) }} </mat-cell>
+	</ng-container>
+	  <ng-container matColumnDef="imageurl" >
+      <mat-header-cell *matHeaderCellDef class="max-width-70"> Image </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="max-width-70">
+	  
+	  <img  class="table-user rounded-circle img-thumbnail" width="60px" height="60px" src="assets/img/no_image.jpg"
+	  *ngIf="errors.indexOf(element?.image)>=0"
+	  />
+	  
+	  <img  class="table-user rounded-circle img-thumbnail" width="60px" height="60px" src="{{IMAGES_URL}}/{{element.image}}"
+	  *ngIf="errors.indexOf(element?.image)==-1"
+	  />
+	  
+	  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name" >
+      <mat-header-cell *matHeaderCellDef   name>  Name </mat-header-cell>
+      <mat-cell *matCellDef="let element" name> {{element.first_name}} {{element.last_name}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef  emailAddress> Email ID</mat-header-cell>
+      <mat-cell *matCellDef="let element" emailAddress > {{element.email}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="phoneno">
+      <mat-header-cell *matHeaderCellDef address> Type</mat-header-cell>
+      <mat-cell *matCellDef="let element" address  >
+	   <span class="badge badge-success "  *ngIf="element.type==1">Company</span>
+	   <span class="badge badge-success "  *ngIf="element.type==2">Individual</span>
+	  
+	  </mat-cell>
+    </ng-container>
+	 <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef > Status </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+	  <span class="badge badge-success {{element.status}}"  *ngIf="element.status==0">Not Activated</span>
+	  <span class="badge badge-success {{element.status}}"  *ngIf="element.status==1">Activated</span>
+	  
+	  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+      <mat-cell *matCellDef="let element" > 
+       
+          <button  routerLink="/demo1/users/edituser/{{element.id}}" mat_primary_color mat-icon-button color="pink" matTooltip="Edit User">
+          <i class="fa fa-pencil-alt"></i>
+        </button>&nbsp;
+	 <button  (click)="open(content)"   mat-icon-button color="danger" matTooltip="Delete User">
+          <i class="fa fa-trash"></i>
+        </button>
+     </mat-cell>
+   </ng-container>
+
+    
+
+    <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+  </mat-table>
+</div></div>
+  
+			</kt-portlet-body>
+		</kt-portlet>
+		
+	</div>
+
+</div>
+
+<div class="kt-section">
+  <div class="kt-section__content">
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-body">
+        <button type="button" class="close close-modal" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div  class="modal-inner text-center">
+          <i class="flaticon2-close-cross fa-4x close-icon"></i>
+          <h4>Are You Sure ?</h4>
+          <p class="mb-0">Are you sure you want to delete this records? This process cannot be undone</p>
+        </div>
+      </div>
+      <div class="modal-footer no-border pt-0 justify-content-center pb-4">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

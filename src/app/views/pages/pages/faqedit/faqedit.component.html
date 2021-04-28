@@ -1,0 +1,48 @@
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title"><span>Edit Faq</span></h3>
+		</div>
+		<div class="kt-portlet__head-toolbar">
+			<button  routerLink="/demo1/pages/faq" mat-raised-button color="yellow">Back To Faq</button>
+		</div>
+	</div>
+	<div class="kt-portlet__body">
+		
+		<div class="row">
+			<div class="col-md-12 profile_form">
+			<div class="row grp_form" >
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="frm_label">Title</label>
+							<div class="input-group">
+								<input type="text" class="form-control" [(ngModel)]="title" placeholder="Enter FAQ Title"  value="What Is FoodForLife ?" name="title">
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="frm_label">Description</label>
+							<div class="input-group">
+									<textarea rows="10" class="form-control"   placeholder="Enter FAQ Description" [(ngModel)]="description" name="description"></textarea>
+								
+							</div>
+						</div>
+					</div>
+					
+				</div>
+
+				
+
+				<div class="row">	
+										
+					<div class="col-md-12 mt-3">
+						<button  btn-submit   mat-raised-button color="pink" (click)="submit();">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
