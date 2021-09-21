@@ -3,9 +3,9 @@
 	     <div class="kt-portlet__head-label">
 		    <h3 class="kt-portlet__head-title"><span>All Pages</span></h3>
 		 </div>
-		 <div class="kt-portlet__head-toolbar">
+		 <!--div class="kt-portlet__head-toolbar">
 		   <button routerLink="/demo1/pages/add-page" mat-raised-button color="yellow">Add Page</button>
-		 </div>
+		 </div-->
 	</div>	
 	<div class="kt-portlet__body">
 
@@ -26,8 +26,8 @@
 				<button  routerLink="/demo1/pages/edit-page/{{element?.id}}" mat_primary_color mat-icon-button color="pink" matTooltip="Edit Page">
           <i class="fa fa-pencil-alt"></i>
         </button>&nbsp;        
-		<button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
-         <mat-icon>delete</mat-icon> </button>
+		<!--button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
+         <mat-icon>delete</mat-icon> </button-->
 		  </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

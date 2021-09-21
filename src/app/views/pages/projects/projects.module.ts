@@ -6,6 +6,7 @@ import { EditprojectComponent } from './editproject/editproject.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { TagInputModule } from 'ngx-chips';
 import {
 	MatInputModule,
 	MatSlideToggleModule,
@@ -36,6 +37,7 @@ import {
   declarations: [ProjectsComponent, AddprojectComponent, EditprojectComponent],
   imports: [
     CommonModule,
+	//TagInputModule,
 	NgbModule,
 	FormsModule,
 		ReactiveFormsModule,
@@ -71,7 +73,7 @@ import {
 				component: AddprojectComponent
 			},
 			{
-				path: 'editproject',
+				path: 'editproject/:id',
 				component: EditprojectComponent
 			}
 		])

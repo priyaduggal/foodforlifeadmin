@@ -139,7 +139,7 @@
       <mat-header-cell *matHeaderCellDef width10 > Date </mat-header-cell>
       <mat-cell *matCellDef="let element" width10 >{{element?.donated_at | date : 'MMM d, yyyy'}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="action">
+    <!--ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef  > Action </mat-header-cell>
       <mat-cell *matCellDef="let element"  > 
         
@@ -147,7 +147,7 @@
           <i class="fa fa-trash"></i>
         </button>
      </mat-cell>
-   </ng-container>
+   </ng-container-->
 
     
 
@@ -224,14 +224,12 @@
     </ng-container>
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
-      <mat-cell *matCellDef="let element" > 
+      <mat-cell *matCellDef="let element;let i = index;" > 
        
           <button  routerLink="/demo1/users/edituser/{{element.id}}" mat_primary_color mat-icon-button color="pink" matTooltip="Edit User">
           <i class="fa fa-pencil-alt"></i>
         </button>&nbsp;
-	 <button  (click)="open(content)"   mat-icon-button color="danger" matTooltip="Delete User">
-          <i class="fa fa-trash"></i>
-        </button>
+	 
      </mat-cell>
    </ng-container>
 
@@ -264,7 +262,7 @@
       </div>
       <div class="modal-footer no-border pt-0 justify-content-center pb-4">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="confirmdelete()">Delete</button>
       </div>
     </ng-template>
   </div>

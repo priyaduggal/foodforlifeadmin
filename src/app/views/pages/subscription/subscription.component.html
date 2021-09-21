@@ -3,9 +3,9 @@
     <div class="kt-portlet__head-label">
       <h3 class="kt-portlet__head-title"><span>All Subscription Plans</span></h3>
     </div>
-    <div class="kt-portlet__head-toolbar">
+    <!--div class="kt-portlet__head-toolbar">
       <button  (click)="open(content1)" mat-raised-button color="yellow">Add  Subscription</button>
-    </div>
+    </div-->
   </div>
 
   <div class="kt-portlet__body pt-0">
@@ -40,7 +40,7 @@
       <mat-cell *matCellDef="let element" cell-center>Monthly</mat-cell>
     </ng-container>
     <!-- Action Column -->
-    <ng-container matColumnDef="action">
+    <!--ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef   cell-center> Action </mat-header-cell>
       <mat-cell *matCellDef="let element"  cell-center> 
         <button    (click)="open(content2)" mat_primary_color mat-icon-button color="pink" matTooltip="Edit  Subscription">
@@ -50,7 +50,7 @@
         <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
          <mat-icon>delete</mat-icon> </button>
      </mat-cell>
-   </ng-container>
+   </ng-container-->
    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
  </mat-table>

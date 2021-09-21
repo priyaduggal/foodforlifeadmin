@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { config } from '../../../config';
 import { UserService } from '../../../core/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'kt-beneficiaries',
@@ -12,17 +13,31 @@ import { UserService } from '../../../core/user/user.service';
 })
 export class BeneficiariesComponent implements OnInit {
 IMAGES_URL=config.IMAGES_URL;
-	errors=config.errors;
+errors=config.errors;
+del_id:any=null;
+loading = false;
+del_index:any=null;
+modalRef:any;
 displayedColumns = [ 'imageurl' , 'title', 'description'  ,'action'];
-  dataSource :any;
-  isLoading = true;
-    selection = new SelectionModel<Element>(true, []);
+dataSource :any;
+isLoading = true;
+selection = new SelectionModel<Element>(true, []);
 	/** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
+  isAllSelected() {    const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+
+openVerticallyCentered(content,del_id,del_index) {
+       this.modalRef = this.modalService.open(content, { centered: true });
+     this.del_id = del_id;
+    this.del_index = del_index;
+  }
+   showSnackBar(message){
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
+  }	
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
@@ -41,10 +56,34 @@ displayedColumns = [ 'imageurl' , 'title', 'description'  ,'action'];
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  constructor(private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) {
+  constructor(private _snackBar: MatSnackBar,private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) {
 this.getbeneficiaries();	  }
 
   ngOnInit() {
+  }
+  deleteben()
+  {
+	   this.loading = true;
+       this.userService.postData({id:this.del_id},'deleteben').subscribe((result) => {
+      this.loading = false;
+   
+      if(result.status == 1){
+        this.modalRef.close();
+        this.dataSource.data.splice(this.del_index,1);
+        this.cdr.markForCheck();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.showSnackBar('Beneficiaries deleted successfully.');
+      }
+      else{
+        this.showSnackBar('Error while deleting user,Please try after some time');
+      }
+    },
+    err => {
+      this.loading = false;
+      this.showSnackBar('Technical error,Please try after some time');
+    }); 
+	  
   }
   getbeneficiaries()
   {

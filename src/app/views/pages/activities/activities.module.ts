@@ -72,7 +72,7 @@ import {
 				component: AddactivityComponent
 			},
 			{
-				path: 'editactivity',
+				path: 'editactivity/:id',
 				component: EditactivityComponent
 			}
 		])

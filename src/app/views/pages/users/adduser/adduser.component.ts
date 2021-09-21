@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AdduserComponent implements OnInit {
 addForm: FormGroup;
+reg_exp1:any;
 first_name:any;
 last_name:any;
 loading = false;
@@ -61,8 +62,10 @@ license_error:boolean=false;
     }
   }
 
-  constructor( private router: Router,public sanitizer:DomSanitizer,private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef, public userService: UserService) { 
+  constructor( private router: Router,public sanitizer:DomSanitizer,private _snackBar: MatSnackBar,
+  private cdr: ChangeDetectorRef, public userService: UserService) { 
   this.allcon();
+   this.reg_exp1=/^[0-9]+$/;
   this.reg_exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   }
   showSnackBar(message){
@@ -135,10 +138,13 @@ license_error:boolean=false;
   }
   adduser()
   { 
+  
 	  this.is_submit = true;
 	if(this.errors.indexOf(this.first_name) >= 0 ||
 	this.errors.indexOf(this.last_name) >= 0 ||
+	this.phone.length < 10||
 	!this.reg_exp.test(String(this.email).toLowerCase()) || 
+	!this.reg_exp1.test(this.phone) ||
 	this.errors.indexOf(this.email) >= 0 ||
 	this.errors.indexOf(this.phone) >= 0 ||
 	this.errors.indexOf(this.status) >= 0 ||

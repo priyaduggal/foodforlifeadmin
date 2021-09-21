@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { config } from '../../../config';
 import { UserService } from '../../../core/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'kt-activities',
   templateUrl: './activities.component.html',
@@ -12,10 +13,14 @@ import { UserService } from '../../../core/user/user.service';
 export class ActivitiesComponent implements OnInit {
 IMAGES_URL=config.IMAGES_URL;
 errors=config.errors;
+del_id:any=null;
+loading = false;
+del_index:any=null;
+modalRef:any;
 dataSource :any;
 dataSource1 :any;
 isLoading = true;
-displayedColumns = [  'imageurl' , 'title' ,'date' ,  'meals' , 'donation' , 'action'];
+displayedColumns = [  'imageurl' , 'title' ,'date' ,'amount','meals_t' , 'meals' , 'donation' , 'action'];
 displayedColumns1 = [ 'imageurl' , 'title' ,'date' ,  'meals' , 'donation' , 'action'];
 //dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 // dataSource1 = new MatTableDataSource<Element1>(ELEMENT_DATA1);
@@ -26,7 +31,11 @@ selection = new SelectionModel<Element>(true, []);
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-
+	showSnackBar(message){
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
+  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
@@ -43,8 +52,34 @@ selection = new SelectionModel<Element>(true, []);
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  constructor(private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) { 
+  constructor(private _snackBar: MatSnackBar,private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) { 
   this.get_activities();
+  }
+  openVerticallyCentered(content,del_id,del_index) {
+       this.modalRef = this.modalService.open(content, { centered: true });
+     this.del_id = del_id;
+    this.del_index = del_index;
+  }
+  delete()
+  {
+	  this.loading = true;
+       this.userService.postData({id:this.del_id},'deleteActivity').subscribe((result) => {
+      this.loading = false;
+   
+      if(result.status == 1){
+        this.modalRef.close();
+       	this.get_activities();
+        this.showSnackBar('Activity  deleted successfully.');
+      }
+      else{
+        this.showSnackBar('Error while deleting user,Please try after some time');
+      }
+    },
+    err => {
+      this.loading = false;
+      this.showSnackBar('Technical error,Please try after some time');
+    });
+  
   }
   get_activities()
   {

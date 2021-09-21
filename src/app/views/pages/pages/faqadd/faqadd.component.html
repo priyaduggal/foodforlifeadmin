@@ -18,6 +18,8 @@
 								<input type="text" class="form-control" [(ngModel)]="title" name="title" placeholder="Enter FAQ Title"  >
 								
 							</div>
+							<span error  *ngIf="is_submit==true && errors.indexOf(title)>=0">
+							Please enter title</span>	
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -27,6 +29,8 @@
 									<textarea rows="10" class="form-control" name="description"[(ngModel)]="description"  placeholder="Enter FAQ Description"></textarea>
 								
 							</div>
+							<span error  *ngIf="is_submit==true && errors.indexOf(description)>=0">
+							Please enter description</span>	
 						</div>
 					</div>
 					

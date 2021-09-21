@@ -9,8 +9,7 @@
   </div>
 
   <div class="kt-portlet__body ">
- <mat-tab-group mat-align-tabs="start">
-   <mat-tab label="Ongoing Activities">
+ 
     <mat-form-field class="mat-form-field-infix">
      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
    </mat-form-field>
@@ -55,6 +54,14 @@
       <mat-cell *matCellDef="let element"> <span class="badge badge-secondary">
 	  {{element?.created_at | date : 'MMM d, yyyy'}}</span> </mat-cell>
     </ng-container>
+	  <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef  width20> Target Amount </mat-header-cell>
+      <mat-cell *matCellDef="let element" width20> {{element.target_amount}} </mat-cell>
+    </ng-container>
+	 <ng-container matColumnDef="meals_t">
+      <mat-header-cell *matHeaderCellDef  width20> Target Meals </mat-header-cell>
+      <mat-cell *matCellDef="let element" width20> {{element.target_meals}} </mat-cell>
+    </ng-container>
 	 <ng-container matColumnDef="meals">
       <mat-header-cell *matHeaderCellDef>Meals Distributed</mat-header-cell> 
       <mat-cell *matCellDef="let element"> {{element.meals}} meals </mat-cell>
@@ -66,12 +73,12 @@
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-      <mat-cell *matCellDef="let element"> 
-        <button   routerLink="/demo1/activities/editactivity"  mat_primary_color mat-icon-button color="pink" matTooltip="Edit  Activity">
+      <mat-cell *matCellDef="let element;let i = index;"> 
+        <button   routerLink="/demo1/activities/editactivity/{{element?.id}}"  mat_primary_color mat-icon-button color="pink" matTooltip="Edit  Activity">
           <i class="fa fa-pencil-alt"></i>
         </button>&nbsp;
 	
-        <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
+        <button (click)="openVerticallyCentered(content,element.id,i + (paginator.pageIndex * paginator.pageSize))"  mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
          <mat-icon>delete</mat-icon> </button>
      </mat-cell>
    </ng-container>
@@ -86,73 +93,9 @@
 [pageSizeOptions]="[5, 10, 20]"
 [showFirstLastButtons]="true">
 </mat-paginator>
-  </mat-tab>
-  <mat-tab label="Past Activities">
-    <mat-form-field class="mat-form-field-infix">
-     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-   </mat-form-field>
-   <div class="table-responsive"> 
-    <div class="mat-table__wrapper "> 
-     <mat-table #table1 [dataSource]="dataSource1">
-
-       <!--ng-container matColumnDef="select">
-        <mat-header-cell *matHeaderCellDef width10>
-          <mat-checkbox (change)="$event ? masterToggle() : null"
-          [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()">
-        </mat-checkbox>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row" width10>
-        <mat-checkbox (click)="$event.stopPropagation()"
-        (change)="$event ? selection.toggle(row) : null"
-        [checked]="selection.isSelected(row)">
-      </mat-checkbox>
-    </mat-cell>
-  </ng-container-->
-  <!-- Image Column -->
-	  <ng-container matColumnDef="imageurl" >
-      <mat-header-cell *matHeaderCellDef  width10> Image </mat-header-cell>
-      <mat-cell *matCellDef="let element"  width10>   <img  class="table-user rounded-circle img-thumbnail" width="60px" height="60px" src="{{element.imageurl}}"/>  </mat-cell>
-    </ng-container>
-    <!-- Name Column -->
-    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef  width20> Title </mat-header-cell>
-      <mat-cell *matCellDef="let element" width20> {{element.title}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef>Date </mat-header-cell> 
-      <mat-cell *matCellDef="let element"> <span class="badge badge-secondary">{{element.date}}</span> </mat-cell>
-    </ng-container>
-	 <ng-container matColumnDef="meals">
-      <mat-header-cell *matHeaderCellDef>Meals Distributed</mat-header-cell> 
-      <mat-cell *matCellDef="let element"> {{element.meals}} meals </mat-cell>
-    </ng-container>
-	 <ng-container matColumnDef="donation">
-      <mat-header-cell *matHeaderCellDef>Donation </mat-header-cell> 
-      <mat-cell *matCellDef="let element"> {{element.donation}} </mat-cell>
-    </ng-container>
-    <!-- Action Column -->
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-      <mat-cell *matCellDef="let element"> 
-        <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
-         <mat-icon>delete</mat-icon> </button>
-     </mat-cell>
-   </ng-container>
-   <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
-   <mat-row *matRowDef="let row; columns: displayedColumns1"></mat-row>
- </mat-table>
-
-</div>
-</div>
-<mat-paginator #paginator1
-[pageSize]="10"
-[pageSizeOptions]="[5, 10, 20]"
-[showFirstLastButtons]="true">
-</mat-paginator>
-  </mat-tab>
  
- </mat-tab-group>
+ 
+ 
 </div>
 </div>
 <div class="kt-section">
@@ -170,7 +113,7 @@
       </div>
       <div class="modal-footer no-border pt-0 justify-content-center pb-4">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger"(click)="delete()">Delete</button>
       </div>
     </ng-template>
   </div>

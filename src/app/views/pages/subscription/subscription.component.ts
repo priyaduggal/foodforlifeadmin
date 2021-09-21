@@ -14,7 +14,7 @@ export class SubscriptionComponent implements OnInit {
  dataSource :any;
 	 IMAGES_URL=config.IMAGES_URL;
 		 errors=config.errors;
-displayedColumns = ['imageurl' , 'price' , 'duration' ,'action'];
+displayedColumns = ['imageurl' , 'price' , 'duration' ];
   //dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
     selection = new SelectionModel<Element>(true, []);
 	/** Whether the number of selected elements matches the total number of rows. */

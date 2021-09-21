@@ -30,9 +30,11 @@ import {
 	MatTooltipModule
 	
 } from '@angular/material';
+import { EditbeneficiariesComponent } from './editbeneficiaries/editbeneficiaries.component';
+import { AddbeneficiariesComponent } from './addbeneficiaries/addbeneficiaries.component';
 
 @NgModule({
-  declarations: [BeneficiariesComponent],
+  declarations: [BeneficiariesComponent, EditbeneficiariesComponent, AddbeneficiariesComponent],
   imports: [
     CommonModule,
 	NgbModule,
@@ -64,6 +66,13 @@ import {
 			{
 				path: '',
 				component: BeneficiariesComponent
+			},
+			{
+				path: 'editbeneficiaries/:id',
+				component: EditbeneficiariesComponent
+			},{
+				path: 'addbeneficiaries',
+				component: AddbeneficiariesComponent
 			}
 		])
   ]

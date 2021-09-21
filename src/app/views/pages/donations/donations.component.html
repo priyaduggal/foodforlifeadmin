@@ -45,13 +45,13 @@
       <mat-header-cell *matHeaderCellDef  width12> Date </mat-header-cell>
       <mat-cell *matCellDef="let element"  width12><span class="badge badge-secondary">{{element?.donated_at | date : 'MMM d, yyyy'}}</span></mat-cell>
     </ng-container>
-    <ng-container matColumnDef="action">
+    <!--ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let element"> 
         <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
          <mat-icon>delete</mat-icon> </button>
      </mat-cell>
-   </ng-container>
+   </ng-container-->
    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
  </mat-table>

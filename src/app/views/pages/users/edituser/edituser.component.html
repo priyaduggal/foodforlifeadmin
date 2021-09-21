@@ -20,13 +20,12 @@
 										
 										<img *ngIf="is_license_uploaded == false && errors.indexOf(image)==-1"   src="{{IMAGES_URL}}/{{image}}" class="rounded-circle img-thumbnail">
 
-
 										<img *ngIf="is_license_uploaded == true"  [src]="sanitizer.bypassSecurityTrustUrl(license_image_url)"
 										class="rounded-circle img-thumbnail">
 										
 										<label  for="user-img">Upload Picture</label>
 										<input  id="user-img" style="display:none" type="file"
-							(change)="uploadLicense($event)" name="user-img">
+											(change)="uploadLicense($event)" name="user-img">
 									</div>
 								</div>
 						</div>
@@ -34,9 +33,7 @@
 				</div>
 				<div class="col-md-8 profile_form editusertab">
 				 <mat-tab-group mat-align-tabs="start">
-   <mat-tab label="Basic Info">
-				
-				
+					<mat-tab label="Basic Info">
 					<div class="row grp_form mt-3 " >
 						<div class="col-md-6">
 						  <div class="form-group">
@@ -73,7 +70,13 @@
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="" name="phone" [(ngModel)]="phone">
 							</div>
-							<span error *ngIf="errors.indexOf(phone) >= 0 && is_submit == true">Please enter phone number</span>
+							<span error *ngIf="phone?.length<10 && errors.indexOf(phone) == -1 
+									 && is_submit == true ">Phone number must be atleast 10 digit long</span>
+						    <span error *ngIf="errors.indexOf(phone) == -1 
+									 && is_submit == true && !reg_exp1.test(phone)">
+									 Please enter valid phone number</span> 
+							<span error *ngIf="errors.indexOf(phone) >= 0 && is_submit == true">Please 
+							enter phone number</span>
 						</div>
 					</div>	
 				<div class="col-md-6">
@@ -148,7 +151,7 @@
 						<div class="form-group">
 							<label class="frm_label">New Password</label>
 							<div class="input-group">
-								<input class="form-control" placeholder="" name="password" [(ngModel)]="password">
+								<input class="form-control" type="password" placeholder="" name="password" [(ngModel)]="password">
 							</div>
 								<span error *ngIf="errors.indexOf(cpassword) ==-1 && errors.indexOf(password) >= 0 && is_submit == true">Please enter password</span>
 							
@@ -159,92 +162,57 @@
 						<div class="form-group">
 							<label class="frm_label">Confirm New Password</label>
 							<div class="input-group">
-								<input class="form-control" placeholder="" name="cpassword" [(ngModel)]="cpassword">
+								<input class="form-control"  type="password"  placeholder="" name="cpassword" [(ngModel)]="cpassword">
 							</div>
-							<span error *ngIf="errors.indexOf(password) ==-1 && errors.indexOf(cpassword) >= 0 && is_submit == true">Please enter confirm password</span>
+							<span error *ngIf="errors.indexOf(password) ==-1 && 
+							errors.indexOf(cpassword) >= 0 && is_submit == true">
+							Please enter confirm password</span>
 							
-							<span error *ngIf="errors.indexOf(password) ==-1 && password!=cpassword && is_submit == true">Confirm password does not match</span>
-
-							
-
+							<span error *ngIf="errors.indexOf(password) ==-1 && 
+							password!=cpassword && is_submit == true">Confirm password does not match</span>
 
 						</div>
 					</div>	
 						<div class="col-md-12 mt-3">
-							<button  btn-submit   mat-raised-button color="pink" (click)="edituser()" 
-						[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">Save changes</button>
+						<button  btn-submit   mat-raised-button color="pink" (click)="edituser()" 
+						[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">
+						Save changes</button>
 						</div>
 					</div>
 				</mat-tab>
 				   <mat-tab label="Donations">
+				  
 				   <div class="kt-widget4 widt-tbs mt-3">
-						<div class="kt-widget4__item">
+				   <p *ngIf="donations?.length==0">No records found</p>
+						<div class="kt-widget4__item" *ngFor="let don of donations">
 							<div class="kt-widget4__pic kt-widget4__pic--pic">
-								<img src="assets/media/project1.jpg" alt="">   
-							</div>
-							<div class="kt-widget4__info">
-								<a href="#" class="kt-widget4__username">
-							Help Children In South America
-									
-								</a>
+								<img   *ngIf="errors.indexOf(don?.charityid)==-1" src="{{IMAGES_URL}}/{{don?.image}}"/>
+								<img   *ngIf="errors.indexOf(don?.actid)==-1" src="{{IMAGES_URL}}/{{don?.aimage}}"/>
+								<img   *ngIf="errors.indexOf(don?.teamid)==-1" src="{{IMAGES_URL}}/{{don?.timage}}"/>
+								</div>
+								<div class="kt-widget4__info">
 								
-								<p class="kt-widget4__text">
-								<b>25 Cents</b> giving  to feed children in South America
-									
-								</p>							 		 
-							</div>						 
-							<span class="time-rigt"> <i class="flaticon2-calendar"></i> 19 Sept 2020 </span>						 
-						</div>  
-						<div class="kt-widget4__item">
-							<div class="kt-widget4__pic kt-widget4__pic--pic">
-								<img src="assets/media/project2.jpeg" alt="">   
-							</div>
-							<div class="kt-widget4__info">
-								<a href="#" class="kt-widget4__username">
-							Help Children In India
-									
-								</a>
 								
-								<p class="kt-widget4__text">
-								<b>$20</b> given  to feed children in india
-								</p>							 		 
+								<a class="kt-widget4__username" 
+								*ngIf="errors.indexOf(don?.actid)==-1"  
+								routerLink="/activitydetail/{{don?.actid}}">{{don?.atitle}}</a>
+								<a class="kt-widget4__username"  
+								*ngIf="errors.indexOf(don?.teamid)==-1" 
+								routerLink="/teamdetail/{{don?.teamid}}">{{don?.ttitle}}</a>
+								<a class="kt-widget4__username" 
+								*ngIf="errors.indexOf(don?.charityid)==-1" 
+								routerLink="/charitydetail/{{don?.charityid}}">{{don?.title}}</a>
+								<p class="kt-widget4__text" *ngIf="errors.indexOf(don?.actid)==-1"><b>${{don?.amount}} </b> given to {{don?.atitle}}</p>
+								<p class="kt-widget4__text"*ngIf="errors.indexOf(don?.teamid)==-1"><b>${{don?.amount}} </b> given to {{don?.ttitle}}</p>
+								<p class="kt-widget4__text" *ngIf="errors.indexOf(don?.charityid)==-1"><b>${{don?.amount}} </b> given to {{don?.title}}</p>
+								<p class="kt-widget4__text" *ngIf="errors.indexOf(don?.charityid)>=0 && errors.indexOf(don?.teamid)>=0 &&
+								errors.indexOf(don?.actid)>=0 "><b>${{don?.amount}} </b> given to donation jar</p>
+
+										 		 
 							</div>						 
-							<span class="time-rigt"> <i class="flaticon2-calendar"></i> 18 Sept 2020 </span>						 
+							<span class="time-rigt"> <i class="flaticon2-calendar"></i>{{don?.donated_at | date : 'd MMM yyyy'}} </span>						 
 						</div>  
-						<div class="kt-widget4__item">
-							<div class="kt-widget4__pic kt-widget4__pic--pic">
-								<img src="assets/media/project3.jpg" alt="">   
-							</div>
-							<div class="kt-widget4__info">
-								<a href="#" class="kt-widget4__username">
-							Help children in South Africa
-									
-								</a>
-								
-								<p class="kt-widget4__text">
-								<b>$30</b> giving  to feed children in South Africa
-									
-								</p>							 		 
-							</div>						 
-							<span class="time-rigt"> <i class="flaticon2-calendar"></i> 17 Sept 2020 </span>						 
-						</div>  
-						<div class="kt-widget4__item">
-							<div class="kt-widget4__pic kt-widget4__pic--pic">
-								<img src="assets/media/project4.jpg" alt="">   
-							</div>
-							<div class="kt-widget4__info">
-								<a href="#" class="kt-widget4__username">
-						Feed children around the world
-									
-								</a>
-								
-								<p class="kt-widget4__text">
-								<b>$10</b> given  to feed children  around the world
-								</p>							 		 
-							</div>						 
-							<span class="time-rigt"> <i class="flaticon2-calendar"></i> 16 Sept 2020 </span>						 
-						</div>  
-			         </div>  
+						    </div>  
 
 				   
 				   </mat-tab>

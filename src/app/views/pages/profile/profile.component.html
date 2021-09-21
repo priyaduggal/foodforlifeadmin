@@ -9,7 +9,7 @@
 	        	
 	        	
 	        	<div class="row">
-	        	<div class="col-md-4">
+	        	<!--div class="col-md-4">
 					<div class=" profile_user">
 						<div class="card">
 							<div class="card-body text-center">
@@ -21,88 +21,84 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-8 profile_form">
-						<h4 class="mt-0 mb-4">Basic Info</h4>
+				</div-->
+				<div class="col-md-12 profile_form">
+						<h4 class="mt-0 mb-4 tsrs-sa">Basic Info</h4>
 						<div class="row grp_form" >
 						<div class="col-md-6">
 								  <div class="form-group">
-									  <label class="frm_label">Name</label>
+									  <label class="frm_label">First Name</label>
 									  <div class="input-group">
-										  <input class="form-control" placeholder="" value=" John Smith">
+										  <input class="form-control" placeholder=""  name="first_name" 
+										  [(ngModel)]="first_name">
 									  </div>
+									  	<span error *ngIf="errors.indexOf(first_name) >= 0 && is_submit == true">Please enter first name</span>
 								  </div>
+
+							   </div>
+
+							   <div class="col-md-6">
+								  <div class="form-group">
+									  <label class="frm_label">Last Name</label>
+									  <div class="input-group">
+										  <input class="form-control" placeholder=""  name="last_name" 
+										  [(ngModel)]="last_name">
+									  </div>
+									  <span error *ngIf="errors.indexOf(last_name) >= 0 && is_submit == true">Please enter last name</span>
+								  </div>
+								  
 							   </div>
 							  
 							   <div class="col-md-6">
 								  <div class="form-group">
-									  <label class="frm_label">Email Address</label>
+									  <label class=" mt-3 frm_label">Email Address</label>
 									  <div class="input-group">
-										  <input class="form-control" placeholder="" value="johnsmith@gmail.com">
+										  <input class="form-control" placeholder=""   name="email" 
+										  [(ngModel)]="email">
 									  </div>
+										<span error *ngIf="errors.indexOf(email) >= 0 && is_submit == true">Please enter email address</span>
+										<span error *ngIf="errors.indexOf(email) == -1 && is_submit == true && !reg_exp.test(email.toLowerCase())">Please enter valid email address</span>
 								  </div>
 								  </div>
 								   <div class="col-md-6">
 									  <div class="form-group">
 											  <label class=" mt-3 frm_label">Phone No.</label>
 											  <div class="input-group">
-												  <input class="form-control" placeholder="" value="9876543210">
+												  <input class="form-control" placeholder="" name="phone" [(ngModel)]="phone" >
 											  </div>
+											  
+												<span error *ngIf="phone.length<10 && errors.indexOf(phone) == -1 
+												&& is_submit == true ">Phone number must be atleast 10 digit long</span>
+												<span error *ngIf="errors.indexOf(phone) == -1 
+												&& is_submit == true && !reg_exp1.test(phone)">
+												Please enter valid phone number</span> 
+												<span error *ngIf="errors.indexOf(phone) >= 0 && is_submit == true">Please 
+												enter phone number</span>
+											  
+											 
 										  </div>
 								   </div>	
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="mt-3 frm_label">Address</label>
 											<div class="input-group">
-												<input class="form-control" placeholder="" value="123 Town Street">
+												<input class="form-control" placeholder="" name="address" [(ngModel)]="address">
 											</div>
+											<span error *ngIf="errors.indexOf(address) >= 0 && is_submit == true">Please enter address</span>
 										</div>
 									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label class="mt-3 frm_label">Country</label>
-											<div class="input-group">
-												<select class="form-control">
-													<option> India </option>
-													<option> Japan </option>
-													<option> USA </option>
-													<option> Canada </option>
-													<option> China </option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label class="mt-3 frm_label">State</label>
-											<div class="input-group">
-												<select class="form-control">
-													<option> Alaska </option>
-													<option> New York </option>
-													<option> California </option>
-													<option> New Jersey </option>
-												</select>
-											</div>
-										</div>
-									</div>
-									
+
+								
 								</div>
 
-								<h4 class="mb-2 mt-5">Change Password </h4>
+								<h4 class="mb-2 mt-5 tsrs-sa">Change Password </h4>
 								<div class="row">
-								<div class="col-md-12">
-										<div class="form-group">
-												<label class="mt-3 frm_label">Old Password</label>
-												<div class="input-group">
-													<input class="form-control" placeholder="" value="">
-												</div>
-											</div>
-										</div>
+								
 										<div class="col-md-6">
 												<div class="form-group">
 														<label class="mt-3 frm_label">New Password</label>
 														<div class="input-group">
-															<input class="form-control" placeholder="" value="">
+															<input type="password"class="form-control" placeholder="" value="" name="password" [(ngModel)]="password">
 														</div>
 													</div>
 												</div>
@@ -110,16 +106,19 @@
 											<div class="form-group">
 												<label class="mt-3 frm_label">Confirm Password</label>
 												<div class="input-group">
-													<input class="form-control" placeholder="" value="">
+													<input type="password"class="form-control" placeholder="" name="cpassword" [(ngModel)]="cpassword">
 												</div>
 											</div>
+											<span error *ngIf="errors.indexOf(password) ==-1 && errors.indexOf(cpassword) >= 0 && is_submit == true">Please enter confirm password</span>
+
+											<span error *ngIf="errors.indexOf(cpassword) ==-1 && password!=cpassword && is_submit == true">Confirm password does not match</span>
 										</div>
 							  	
 								  	
 			  
 							   
 							   <div class="col-md-12 mt-3">
-									  <button  btn-submit mat-raised-button color="pink">Save Changes</button>
+									  <button  btn-submit mat-raised-button color="pink" (click)="updateprofile()">Save Changes</button>
 									 </div>
 						   </div>
 

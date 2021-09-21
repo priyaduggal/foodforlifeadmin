@@ -30,12 +30,14 @@
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef action-box width25> Action </mat-header-cell>
-      <mat-cell *matCellDef="let element"  action-box width25> 
+      <mat-cell *matCellDef="let element;let i = index;"  action-box width25> 
        
         <button  routerLink="/demo1/pages/faqedit/{{element?.id}}" mat_primary_color mat-icon-button color="pink" matTooltip="Edit FAQ">
           <i class="fa fa-pencil-alt"></i>
         </button>&nbsp;
-        <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deletefaq(element.id)">
+        <button 
+		mat-icon-button color="danger" matTooltip="Delete" type="button" 
+		 (click)="openVerticallyCentered(content,element.id,i + (paginator.pageIndex * paginator.pageSize))" >
          <mat-icon>delete</mat-icon>
        </button> 
      </mat-cell>
@@ -67,7 +69,7 @@
       </div>
       <div class="modal-footer no-border pt-0 justify-content-center pb-4">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-        <button (click)="deleteseller()" type="button" class="btn btn-danger">Delete</button>
+        <button (click)="deletefaq()" type="button" class="btn btn-danger">Delete</button>
       </div>
     </ng-template>
   </div>

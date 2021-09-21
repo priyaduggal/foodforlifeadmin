@@ -10,7 +10,7 @@ import { UserService } from '../../../core/user/user.service';
   styleUrls: ['./donations.component.scss']
 })
 export class DonationsComponent implements OnInit {
-displayedColumns = [ 'name' ,'email', 'phoneno',  'location', 'paymentby',  'amount' , 'date' ,  'action'];
+displayedColumns = [ 'name' ,'email', 'phoneno',  'location', 'paymentby',  'amount' , 'date' ];
   dataSource :any;
     selection = new SelectionModel<Element>(true, []);
 	 IMAGES_URL=config.IMAGES_URL;

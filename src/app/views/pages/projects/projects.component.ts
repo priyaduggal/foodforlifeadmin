@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { config } from '../../../config';
 import { UserService } from '../../../core/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'kt-projects',
   templateUrl: './projects.component.html',
@@ -11,7 +12,11 @@ import { UserService } from '../../../core/user/user.service';
 })
 export class ProjectsComponent implements OnInit {
 	dataSource:any;
-	dataSource1:any;
+	     del_id:any=null;
+      loading = false;
+    
+      del_index:any=null;
+      modalRef:any;dataSource1:any;
 	IMAGES_URL=config.IMAGES_URL;
 	errors=config.errors;
 	isLoading = true;
@@ -25,7 +30,29 @@ export class ProjectsComponent implements OnInit {
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-
+delete()
+{
+	   this.loading = true;
+       this.userService.postData({id:this.del_id},'deleteProject').subscribe((result) => {
+      this.loading = false;
+   
+      if(result.status == 1){
+        this.modalRef.close();
+       	this.get_ind_projects();
+	this.get_company_projects();
+        this.showSnackBar('Project deleted successfully.');
+      }
+      else{
+        this.showSnackBar('Error while deleting user,Please try after some time');
+      }
+    },
+    err => {
+      this.loading = false;
+      this.showSnackBar('Technical error,Please try after some time');
+    });
+  
+	
+}
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
@@ -39,13 +66,22 @@ export class ProjectsComponent implements OnInit {
 	  
 	  
   }
-    
+  showSnackBar(message){
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
+  }
+    openVerticallyCentered(content,del_id,del_index) {
+       this.modalRef = this.modalService.open(content, { centered: true });
+     this.del_id = del_id;
+    this.del_index = del_index;
+  }
    applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-	constructor(private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) {
+	constructor(private _snackBar: MatSnackBar,private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) {
 	this.get_ind_projects();
 	this.get_company_projects();
 	}

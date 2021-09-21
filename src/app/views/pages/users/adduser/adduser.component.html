@@ -39,7 +39,8 @@
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="" name="first_name" [(ngModel)]="first_name">
 							</div>
-							<span error *ngIf="errors.indexOf(first_name) >= 0 && is_submit == true">Please enter first name</span>
+							<span error *ngIf="errors.indexOf(first_name) >= 0 
+							&& is_submit == true">Please enter first name</span>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -48,7 +49,8 @@
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="" name="last_name" [(ngModel)]="last_name">
 							</div>
-							<span error *ngIf="errors.indexOf(last_name) >= 0 && is_submit == true">Please enter last name</span>
+							<span error *ngIf="errors.indexOf(last_name) >= 0
+							&& is_submit == true">Please enter last name</span>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -57,8 +59,11 @@
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="" name="email" [(ngModel)]="email">
 							</div>
-							<span error *ngIf="errors.indexOf(email) >= 0 && is_submit == true">Please enter email address</span>
-							<span error *ngIf="errors.indexOf(email) == -1 && is_submit == true && !reg_exp.test(email.toLowerCase())">Please enter valid email address</span>
+							<span error *ngIf="errors.indexOf(email) >= 0 
+							&& is_submit == true">Please enter email address</span>
+							<span error *ngIf="errors.indexOf(email) == -1 
+							&& is_submit == true && !reg_exp.test(email.toLowerCase())">
+							Please enter valid email address</span>
 					
 						</div>
 					</div>
@@ -66,14 +71,23 @@
 						<div class="form-group">
 							<label class="frm_label">Phone No.</label>
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="" name="phone" [(ngModel)]="phone">
+								<input type="text" class="form-control" placeholder="" 
+								name="phone" [(ngModel)]="phone">
 							</div>
-							<span error *ngIf="errors.indexOf(phone) >= 0 && is_submit == true">Please enter phone number</span>
+
+							 <span error *ngIf="errors.indexOf(phone) == -1 
+									 && is_submit == true && !reg_exp1.test(phone)">
+									 Please enter valid phone number</span>
+							<span error *ngIf="phone?.length<10 && errors.indexOf(phone) == -1 
+									 && is_submit == true && reg_exp1.test(phone)">Phone number must be atleast 10 digit long</span>
+							<span error *ngIf="errors.indexOf(phone) >= 0 && 
+							is_submit == true">Please enter phone number</span>
 						</div>
 					</div>	
 				<div class="col-md-6">
 								<div class="form-group">
 									<label class="frm_label">Status</label>
+									
 									<div class="input-group">
 										<select class="form-control" name="status" [(ngModel)]="status">
 										<option value=""> - Select - </option>
@@ -81,7 +95,11 @@
 											<option value="0"> Inactive</option>
 										</select>
 									</div>
-									<span error *ngIf="errors.indexOf(phone) >= 0 && is_submit == true">Please select status</span>
+									
+									
+									
+									<span error *ngIf="errors.indexOf(status) >= 0 && is_submit == true">
+									Please select status</span>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -144,7 +162,7 @@
 						<div class="form-group">
 							<label class="frm_label">New Password</label>
 							<div class="input-group">
-								<input class="form-control" placeholder="" name="password" [(ngModel)]="password">
+								<input class="form-control" type="password" placeholder="" name="password" [(ngModel)]="password">
 							</div>
 							<span error *ngIf="errors.indexOf(password) >= 0 && is_submit == true">Please enter password</span>
 
@@ -154,7 +172,7 @@
 						<div class="form-group">
 							<label class="frm_label">Confirm New Password</label>
 							<div class="input-group">
-								<input class="form-control" placeholder="" name="cpassword" [(ngModel)]="cpassword">
+								<input class="form-control" type="password" placeholder="" name="cpassword" [(ngModel)]="cpassword">
 							</div>
 							<span error *ngIf="errors.indexOf(cpassword) >= 0 && is_submit == true">Please enter confirm password</span>
 							

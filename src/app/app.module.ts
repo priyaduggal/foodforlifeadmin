@@ -1,5 +1,6 @@
 // Angular
 // Angular
+//import { TagInputModule } from 'ngx-chips';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -97,6 +98,7 @@ export function hljsLanguages(): HighlightLanguage[] {
 	imports: [
 		BrowserAnimationsModule,
 		BrowserModule,
+		// TagInputModule, 
 		HttpModule,
 		AppRoutingModule,
 		HttpClientModule,

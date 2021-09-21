@@ -4,20 +4,25 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { config } from '../../../config';
 import { UserService } from '../../../core/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'kt-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-displayedColumns = ['imageurl' , 'name', 'email' , 'phone' , 'status'  ,'action'];
-  //dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-  dataSource:any;
-   IMAGES_URL=config.IMAGES_URL;
-		 errors=config.errors;
-  isLoading = true;
-    selection = new SelectionModel<Element>(true, []);
-	/** Whether the number of selected elements matches the total number of rows. */
+displayedColumns = ['imageurl' , 'name', 'email' , 'phone' ,'type', 'status'  ,'action'];
+//dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+dataSource:any;
+del_id:any=null;
+loading = false;
+del_index:any=null;
+modalRef:any;
+IMAGES_URL=config.IMAGES_URL;
+errors=config.errors;
+isLoading = true;
+selection = new SelectionModel<Element>(true, []);
+/** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -36,13 +41,47 @@ displayedColumns = ['imageurl' , 'name', 'email' , 'phone' , 'status'  ,'action'
     //this.dataSource.paginator = this.paginator;
 	  //  this.dataSource.sort = this.sort;
   }
+ openVerticallyCentered(content,del_id,del_index) {
+       this.modalRef = this.modalService.open(content, { centered: true });
+     this.del_id = del_id;
+    this.del_index = del_index;
+  }
    applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  constructor(private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) { 
+  constructor(private modalService: NgbModal,private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef, public userService: UserService) { 
   this.get_users();
+  }
+  confirmdelete()
+  {
+	   this.loading = true;
+       this.userService.postData({id:this.del_id},'deleteUser').subscribe((result) => {
+      this.loading = false;
+   
+      if(result.status == 1){
+        this.modalRef.close();
+        this.dataSource.data.splice(this.del_index,1);
+        this.cdr.markForCheck();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.showSnackBar('User deleted successfully.');
+      }
+      else{
+        this.showSnackBar('Error while deleting user,Please try after some time');
+      }
+    },
+    err => {
+      this.loading = false;
+      this.showSnackBar('Technical error,Please try after some time');
+    });
+  
+  }
+  showSnackBar(message){
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
   }
   get_users()
   {

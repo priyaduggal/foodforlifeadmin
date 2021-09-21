@@ -13,6 +13,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 })
 export class EdituserComponent implements OnInit {
 	selected = 'option2';
+	
 	isLoading = false;
 	is_submit:boolean=false;
 	profile:any;
@@ -23,8 +24,9 @@ export class EdituserComponent implements OnInit {
 	loading = false;
 	all_images:any=[];
 	countries=[];
+	donations=[];
 	type:any;
-	 IMAGES_URL=config.IMAGES_URL;
+	IMAGES_URL=config.IMAGES_URL;
 	product_images:any;
 	img_error:boolean = false;
 	email:any;
@@ -40,6 +42,7 @@ export class EdituserComponent implements OnInit {
 	address:any;
 	reg_exp:any;
 	image:any;
+	reg_exp1:any;
 	errors=config.errors;
 	is_license_uploaded:boolean=false;
 	license_file:any;
@@ -47,11 +50,13 @@ export class EdituserComponent implements OnInit {
 	license_error:boolean=false;
 	places = new FormControl('Kembali');
 	placeList: string[] = ['KATU', 'Kembali', 'La Cabane Bar Marcaipe', 'La Caverna', 'La Creperie' , 'La Rocca' , 'La Ursa'];
-	constructor(public activatedRoute: ActivatedRoute,private router: Router,public sanitizer:DomSanitizer,private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef, public userService: UserService) {
+	constructor(public activatedRoute: ActivatedRoute,private router: Router,
+	public sanitizer:DomSanitizer,private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef, public userService: UserService) {
 	this.id = activatedRoute.snapshot.paramMap.get('id');
-	 this.allcon();
+	this.allcon();
+	this.reg_exp1=/^[0-9]+$/;
 	this.getData();
-	 this.reg_exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	this.reg_exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	}
 	showSnackBar(message){
@@ -68,6 +73,7 @@ export class EdituserComponent implements OnInit {
       var image_file = event.target.files[0];
       if(self.allowedMimes.indexOf(image_file.type) == -1){
         this.license_error = true;
+		 this.showSnackBar('This filetype is not supported');   
       }
       else{
       	self.license_file = image_file;
@@ -106,6 +112,7 @@ export class EdituserComponent implements OnInit {
 			this.userService.postData({'id':this.id},'Userdetails').subscribe((result) => {
             
 			this.profile=result.data;
+			this.donations=result.donations;
 			this.first_name=this.profile.first_name;
 			this.last_name=this.profile.last_name;
 			this.email=this.profile.email;
@@ -135,6 +142,8 @@ edituser()
 	this.errors.indexOf(this.last_name) >= 0 ||
 	!this.reg_exp.test(String(this.email).toLowerCase()) || 
 	this.errors.indexOf(this.email) >= 0 ||
+	!this.reg_exp1.test(this.phone) ||
+	this.phone.length < 10||
 	this.errors.indexOf(this.phone) >= 0 ||
 	this.errors.indexOf(this.status) >= 0 ||
 	this.errors.indexOf(this.address) >= 0 ||
@@ -183,7 +192,7 @@ edituser()
 		 this.loading = false;
 				if(result.status==1)
 				{
-					this.showSnackBar('User added successfully');  
+					this.showSnackBar('User updated successfully');  
 					this.router.navigate(['/demo1/users']);
 				}else
 				{

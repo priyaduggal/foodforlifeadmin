@@ -18,18 +18,22 @@ import { UserService } from '../../../core/user/user.service';
 	styleUrls: ['dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-	  displayedColumns = ['position' , 'name' ,'email', 'phoneno',  'location', 'paymentby',  'amount' , 'date' ,  'action'];
-	  displayedColumns1 = ['position' , 'imageurl' , 'name' ,'email', 'phoneno','status' , 'action']; 
-	     dataSource: any;
-		 dashboard_data:any;
-		 IMAGES_URL=config.IMAGES_URL;
-		 errors=config.errors;
-	isLoading = true;
-	users=[];
-	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-    @ViewChild(MatSort, {static: true}) sort: MatSort;
-	loading = false;
-		     dataSource1:any;
+displayedColumns = ['position' , 'name' ,'email', 'phoneno',  'location', 'paymentby',  
+'amount' , 'date' ];
+displayedColumns1 = ['position' , 'imageurl' , 'name' ,'email', 'phoneno','status' , 'action']; 
+dataSource: any;
+del_id:any=null;
+isLoading = true;
+del_index:any=null;
+modalRef:any;
+dashboard_data:any;
+IMAGES_URL=config.IMAGES_URL;
+errors=config.errors;
+users=[];
+@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+@ViewChild(MatSort, {static: true}) sort: MatSort;
+loading = false;
+dataSource1:any;
 	chartOptions1: SparklineChartOptions;
 	chartOptions2: SparklineChartOptions;
 	chartOptions3: SparklineChartOptions;
@@ -46,6 +50,9 @@ export class DashboardComponent implements OnInit {
 		this.get_recent_donations();
 		
 		
+	}
+	confirmdelete()
+	{
 	}
 	get_recent_donations()
 	{
@@ -74,6 +81,11 @@ export class DashboardComponent implements OnInit {
 	  		this.cdr.markForCheck();
 	  	});
 	}
+	openVerticallyCentered(content,del_id,del_index) {
+       this.modalRef = this.modalService.open(content, { centered: true });
+     this.del_id = del_id;
+    this.del_index = del_index;
+  }
 open(content) {
         this.modalService.open(content).result.then((result) => {       
         });

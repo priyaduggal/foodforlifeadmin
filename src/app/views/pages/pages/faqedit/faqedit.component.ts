@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class FaqeditComponent implements OnInit {
 timestamp:any;
-id:any;
+id:any;is_submit:boolean=false;errors=config.errors;
 isLoading = true;
 description:any;
 title:any;
@@ -43,7 +43,12 @@ showSnackBar(message){
   }
 submit()
 {
-  
+  this.is_submit=true;
+			if(this.errors.indexOf(this.title) >= 0 ||
+			this.errors.indexOf(this.description) >= 0){
+			return;
+			}else
+			{
   this.isLoading = true;
     this.userService.postData({id: this.id,description:this.description,title:this.title},'updatefaq').subscribe((result) => {
       this.isLoading = false;
@@ -51,6 +56,7 @@ submit()
         this.showSnackBar('Faq updated successfully'); 
         this.router.navigate(['/demo1/pages/faq']);  
       });
+			}
   
        
 }

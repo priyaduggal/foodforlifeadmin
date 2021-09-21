@@ -4,16 +4,20 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { config } from '../../../../config';
 import { UserService } from '../../../../core/user/user.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'kt-faq',
   templateUrl: './faq.component.html',
   styleUrls: ['./faq.component.scss']
 })
 export class FaqComponent implements OnInit {
-
+dataSource:any;
+del_id:any=null;
+loading = false;
+del_index:any=null;
+modalRef:any;
 displayedColumns = [ 'title', 'description' , 'action'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  
     selection = new SelectionModel<Element>(true, []);
 	/** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -21,6 +25,11 @@ displayedColumns = [ 'title', 'description' , 'action'];
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+  showSnackBar(message){
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
+  }	
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
@@ -40,11 +49,34 @@ displayedColumns = [ 'title', 'description' , 'action'];
     this.dataSource.filter = filterValue;
   }
    isLoading = true;
-  constructor(private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) {
+  constructor(private _snackBar: MatSnackBar,private modalService: NgbModal,private cdr: ChangeDetectorRef, public userService: UserService) {
   this.faq();
    }
+   deletefaq()
+   {
+	    this.loading = true;
+       this.userService.postData({id:this.del_id},'deletefaq').subscribe((result) => {
+      this.loading = false;
+   
+      if(result.status == 1){
+        this.modalRef.close();
+        this.dataSource.data.splice(this.del_index,1);
+        this.cdr.markForCheck();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.showSnackBar('FAQ deleted successfully.');
+      }
+      else{
+        this.showSnackBar('Error while deleting user,Please try after some time');
+      }
+    },
+    err => {
+      this.loading = false;
+      this.showSnackBar('Technical error,Please try after some time');
+    }); 
+   }
    faq()
-{
+  {
    this.isLoading = true;
     this.userService.postData({},'GetAllFaq').subscribe((result) => {
       this.isLoading = false;
@@ -54,9 +86,14 @@ displayedColumns = [ 'title', 'description' , 'action'];
         this.dataSource.sort = this.sort;
         this.cdr.markForCheck();
       });
-}
+   }
 
   ngOnInit() {
+  }
+  openVerticallyCentered(content,del_id,del_index) {
+       this.modalRef = this.modalService.open(content, { centered: true });
+     this.del_id = del_id;
+    this.del_index = del_index;
   }
 open(content) {
         this.modalService.open(content).result.then((result) => {       
@@ -64,6 +101,7 @@ open(content) {
     }
 
 }
+
 export interface Element {
   title: string;
   description:string;

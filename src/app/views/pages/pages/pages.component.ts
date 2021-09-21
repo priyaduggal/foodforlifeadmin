@@ -11,15 +11,15 @@ import { UserService } from '../../../core/user/user.service';
   styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit {
-  displayedColumns = [  'title', 'action'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-  isLoading = true;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-    @ViewChild(MatSort, {static: true}) sort: MatSort;
-  ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-	    this.dataSource.sort = this.sort;
-  }
+displayedColumns = [  'title', 'action'];
+dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+isLoading = true;
+@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+@ViewChild(MatSort, {static: true}) sort: MatSort;
+ngAfterViewInit() {
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+}
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches

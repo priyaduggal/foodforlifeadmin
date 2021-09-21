@@ -3,6 +3,9 @@
     <div class="kt-portlet__head-label">
       <h3 class="kt-portlet__head-title"><span>All Beneficiaries</span></h3>
     </div>
+	  <div class="kt-portlet__head-toolbar">
+      <button  routerLink="/demo1/beneficiaries/addbeneficiaries" mat-raised-button color="yellow">Add  Beneficiaries</button>
+    </div>
   
   </div>
 
@@ -58,9 +61,11 @@
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-      <mat-cell *matCellDef="let element"> 
-       
-        <button (click)="open(content)" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
+      <mat-cell *matCellDef="let element;let i = index;"> 
+        <button   routerLink="/demo1/beneficiaries/editbeneficiaries/{{element.id}}"  mat_primary_color mat-icon-button color="pink" matTooltip="Edit  User">
+          <i class="fa fa-pencil-alt"></i>
+        </button>&nbsp;
+        <button  (click)="openVerticallyCentered(content,element.id,i + (paginator.pageIndex * paginator.pageSize))" mat-icon-button color="danger" matTooltip="Delete" type="button" (click)="deleteUser(user)">
          <mat-icon>delete</mat-icon> </button>
      </mat-cell>
    </ng-container>
@@ -91,7 +96,7 @@
       </div>
       <div class="modal-footer no-border pt-0 justify-content-center pb-4">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="deleteben()">Delete</button>
       </div>
     </ng-template>
   </div>

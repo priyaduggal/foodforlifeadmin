@@ -56,24 +56,14 @@ export class MenuConfig {
 					bullet: 'dot',
 					page: 'subscription',
 					icon: 'fa fa-money-bill',
-				},{
+				},/* {
 					title: 'Requests', 
 					bullet: 'dot',
 					page: 'requests',
 					icon: 'fa fa-user-plus',
-				},
-				{
-					title: 'Settings',
-					bullet: 'dot',
-					page: 'settings',
-					icon: 'flaticon2-settings',
-				},
-				{
-					title: 'Profile',
-					bullet: 'dot',
-					page: 'profile',
-					icon: 'flaticon2-user-1',
-				},
+				}, */
+				
+				
 				{
 					title: 'Pages',
 					bullet: 'dot',
@@ -90,6 +80,18 @@ export class MenuConfig {
 						}
 					]
 				},
+				{
+					title: 'Profile',
+					bullet: 'dot',
+					page: 'profile',
+					icon: 'flaticon2-user-1',
+				},
+				/* {
+					title: 'Settings',
+					bullet: 'dot',
+					page: 'settings',
+					icon: 'flaticon2-settings',
+				}, */
 			]
 		},
 	};

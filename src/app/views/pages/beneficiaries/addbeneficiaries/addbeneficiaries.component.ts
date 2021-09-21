@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 import {MatChipsModule} from '@angular/material/chips';
 
 @Component({
-  selector: 'kt-addactivity',
-  templateUrl: './addactivity.component.html',
-  styleUrls: ['./addactivity.component.scss']
+  selector: 'kt-addbeneficiaries',
+  templateUrl: './addbeneficiaries.component.html',
+  styleUrls: ['./addbeneficiaries.component.scss']
 })
-export class AddactivityComponent implements OnInit {
-title:any;
+export class AddbeneficiariesComponent implements OnInit {
+title:any;isLoading = false;
 loading = false;
 description:any;
 allowedMimes:any = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/webp', 'image/svg'];
@@ -27,6 +27,7 @@ is_submit:boolean=false;
 license_file:any;
 license_image_url:any;
 type:any;
+name:any;
 license_error:boolean=false;
  public uploader:FileUploader = new FileUploader({url: ''});
   startDate = new Date(1990, 0, 1);
@@ -41,12 +42,6 @@ this.reg_exp1=/^[0-9]+$/;
 
   ngOnInit() {
   }
-   showSnackBar(message){
-    this._snackBar.open(message, 'Close', {
-      duration: 3000,
-    });
-  }
-  
    uploadLicense(event)
   {
 	 this.license_error = false;
@@ -65,19 +60,17 @@ this.reg_exp1=/^[0-9]+$/;
       }
     } 
   }
-  
-  
-  addactivity()
-  {
-			this.is_submit=true;
-			if(this.errors.indexOf(this.title) >= 0 ||
+   showSnackBar(message){
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
+  }
+  editbene()
+{
+		this.is_submit=true;
+			if(this.errors.indexOf(this.name) >= 0 ||
 			this.errors.indexOf(this.description) >= 0 ||
-			this.errors.indexOf(this.description) >= 0 ||
-			this.errors.indexOf(this.amount) >= 0 ||
-			this.errors.indexOf(this.meals) >= 0 ||
-			!this.reg_exp1.test(this.amount) ||
-			!this.reg_exp1.test(this.meals) ||
-			this.errors.indexOf(this.license_image_url) >= 0){
+			this.errors.indexOf(this.license_file)>=0){
 			return;
 			}else
 			{
@@ -90,28 +83,23 @@ this.reg_exp1=/^[0-9]+$/;
 			frmData.append("file", this.license_file);	
 			}
 
-			frmData.append("title",this.title);  
+			frmData.append("name",this.name);  
 			frmData.append("description", this.description);  
-			frmData.append("amount", this.amount);  
-			frmData.append("meals",this.meals);  
+			
 
-			console.log(frmData);
-
-	this.userService.postData(frmData,'addActivity').subscribe((result) => {
-		 this.loading = false;
+	      this.userService.postData(frmData,'addbeneficiaries').subscribe((result) => {
+		  this.loading = false;
 				if(result.status==1)
 				{
-					this.showSnackBar('Activity added successfully');  
-					this.router.navigate(['/demo1/activities']);
+					this.showSnackBar('Beneficiaries updated successfully');  
+					this.router.navigate(['/demo1/beneficiaries']);
 				}else
 				{
-					this.showSnackBar('Error while adding product,Please try after some time');
+					this.showSnackBar('Error while updating product,Please try after some time');
 				}
 	  	});
 			
 		}
-  }
-  
-  
+}
 
 }
